@@ -5,7 +5,7 @@ import { z } from "zod";
 
 const Form = z.object({
   name: z.string(),
-  phoneNumber: z.string(),
+  phoneNumber: z.string().optional(),
   //                     ^ 🕵️‍♂️
 });
 
@@ -15,20 +15,22 @@ export const validateFormInput = (values: unknown) => {
   return parsedData;
 };
 
+type FormType = z.infer<typeof Form>;
+
 // TESTS
 
 it("Should validate correct inputs", async () => {
   expect(() =>
     validateFormInput({
       name: "Matt",
-    }),
+    })
   ).not.toThrow();
 
   expect(() =>
     validateFormInput({
       name: "Matt",
       phoneNumber: "123",
-    }),
+    })
   ).not.toThrow();
 });
 
